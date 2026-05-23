@@ -350,7 +350,7 @@
 
     <!-- HERO -->
     <div class="hero">
-        <h1>Our Menu Testing</h1>
+        <h1>Our Menu</h1>
         <p>Explore our delicious offerings and pick your favourites</p>
     </div>
 
