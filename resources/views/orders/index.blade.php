@@ -39,8 +39,8 @@
         }
 
         .brand-icon {
-            width: 40px;
-            height: 40px;
+            width: 64px;
+            height: 64px;
             display: flex;
             align-items: center;
             justify-content: center;

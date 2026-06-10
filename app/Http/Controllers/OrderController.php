@@ -18,6 +18,41 @@ class OrderController extends Controller
     }
 
     /**
+     * Show the checkout / delivery details page.
+     */
+    public function checkout()
+    {
+        $cart = session()->get('cart', []);
+
+        if (empty($cart)) {
+            return redirect()->route('cart.index')->with('error', 'Your cart is empty.');
+        }
+
+        $menus = Menu::whereIn('id', array_keys($cart))->get()->keyBy('id');
+        $items = [];
+        $totalPrice = 0;
+
+        foreach ($cart as $id => $quantity) {
+            if (isset($menus[$id])) {
+                $menu = $menus[$id];
+                $subtotal = $menu->price * $quantity;
+                $totalPrice += $subtotal;
+                $items[] = [
+                    'menu'     => $menu,
+                    'quantity' => $quantity,
+                    'subtotal' => $subtotal,
+                ];
+            }
+        }
+
+        $pax    = session('pax', 1);
+        $budget = session('budget', 0);
+        $user   = auth()->user();
+
+        return view('orders.checkout', compact('items', 'totalPrice', 'pax', 'budget', 'user'));
+    }
+
+    /**
      * Store a newly created order in database.
      */
     public function store(Request $request)
@@ -27,6 +62,13 @@ class OrderController extends Controller
         if (empty($cart)) {
             return redirect()->route('menu.index')->with('error', 'Your cart is empty.');
         }
+
+        $request->validate([
+            'delivery_date'         => 'required|date|after_or_equal:today',
+            'delivery_time'         => 'required',
+            'delivery_address'      => 'required|string|max:500',
+            'special_instructions'  => 'nullable|string|max:1000',
+        ]);
 
         $menus = Menu::whereIn('id', array_keys($cart))->get()->keyBy('id');
         $totalPrice = 0;
@@ -39,11 +81,15 @@ class OrderController extends Controller
 
         // Create the order
         $order = Order::create([
-            'user_id' => auth()->id(),
-            'pax' => session('pax', 1),
-            'budget' => session('budget', 0),
-            'total_price' => $totalPrice,
-            'status' => 'pending',
+            'user_id'               => auth()->id(),
+            'pax'                   => session('pax', 1),
+            'budget'                => session('budget', 0),
+            'total_price'           => $totalPrice,
+            'status'                => 'pending',
+            'delivery_date'         => $request->delivery_date,
+            'delivery_time'         => $request->delivery_time,
+            'delivery_address'      => $request->delivery_address,
+            'special_instructions'  => $request->special_instructions,
         ]);
 
         // Create the order items
@@ -51,9 +97,9 @@ class OrderController extends Controller
             if (isset($menus[$id])) {
                 $menu = $menus[$id];
                 $order->items()->create([
-                    'menu_id' => $menu->id,
-                    'name' => $menu->name,
-                    'price' => $menu->price,
+                    'menu_id'  => $menu->id,
+                    'name'     => $menu->name,
+                    'price'    => $menu->price,
                     'quantity' => $quantity,
                 ]);
             }

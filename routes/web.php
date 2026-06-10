@@ -47,6 +47,7 @@ Route::middleware('auth')->group(function () {
     Route::delete('/cart/remove/{menu}', [CartController::class, 'remove'])->name('cart.remove');
 
     // Customer order routes
+    Route::get('/order/checkout', [OrderController::class, 'checkout'])->name('order.checkout');
     Route::post('/order/place', [OrderController::class, 'store'])->name('order.place');
     Route::get('/orders', [OrderController::class, 'index'])->name('orders.index');
 
@@ -61,6 +62,7 @@ Route::middleware('auth')->group(function () {
 
         // View Customers
         Route::get('/customers', [CustomerController::class, 'index'])->name('customers.index');
+        Route::get('/customers/{user}/orders', [CustomerController::class, 'customerOrders'])->name('customers.orders');
 
         // Admin Order Management routes
         Route::get('/admin/orders', [OrderController::class, 'adminIndex'])->name('admin.orders');

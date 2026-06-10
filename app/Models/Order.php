@@ -14,6 +14,10 @@ class Order extends Model
         'budget',
         'total_price',
         'status',
+        'delivery_date',
+        'delivery_time',
+        'delivery_address',
+        'special_instructions',
     ];
 
     /**

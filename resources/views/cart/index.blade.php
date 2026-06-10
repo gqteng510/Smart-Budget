@@ -519,12 +519,15 @@
                     </div>
                 @endif
 
-                <form action="{{ route('order.place') }}" method="POST">
-                    @csrf
-                    <button type="submit" class="btn-checkout" id="btn-place-order" {{ $isOverBudget ? 'disabled' : '' }}>
+                @if($isOverBudget)
+                    <span class="btn-checkout" style="opacity:0.45; cursor:not-allowed; pointer-events:none; display:block; text-align:center;">
                         Place Order
-                    </button>
-                </form>
+                    </span>
+                @else
+                    <a href="{{ route('order.checkout') }}" class="btn-checkout" id="btn-place-order" style="display:block; text-align:center; text-decoration:none;">
+                        Place Order →
+                    </a>
+                @endif
 
                 <a href="{{ route('menu.index') }}" class="btn-continue">← Continue Selecting Items</a>
             </div>

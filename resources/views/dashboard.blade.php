@@ -39,8 +39,8 @@
         }
 
         .brand-icon {
-            width: 40px;
-            height: 40px;
+            width: 64px;
+            height: 64px;
             background: linear-gradient(135deg, #8B5E3C, #B87346);
             border-radius: 12px;
             display: flex;

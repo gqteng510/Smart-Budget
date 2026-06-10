@@ -513,6 +513,9 @@
             <a href="{{ route('admin.orders') }}" class="nav-item" id="nav-manage-orders">
                 <span>🛒</span> Manage Orders
             </a>
+            <a href="{{ route('customers.index') }}" class="nav-item" id="nav-customer-info">
+                <span>👥</span> Customer Info
+            </a>
         </nav>
 
         <div class="sidebar-footer">

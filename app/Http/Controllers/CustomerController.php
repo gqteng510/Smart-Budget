@@ -2,18 +2,31 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\User;
 use App\Models\Customer;
 use Illuminate\Http\Request;
 
 class CustomerController extends Controller
 {
     /**
-     * Display a listing of the resource.
+     * Display a listing of registered customers.
      */
     public function index()
     {
-        $customers = Customer::all();
+        $customers = User::where('usertype', 'user')
+                        ->withCount('orders')
+                        ->latest()
+                        ->get();
         return view('customers.index', compact('customers'));
+    }
+
+    /**
+     * Display all orders for a specific customer (admin view).
+     */
+    public function customerOrders(User $user)
+    {
+        $orders = $user->orders()->with('items')->latest()->get();
+        return view('customers.orders', compact('user', 'orders'));
     }
 
     /**

@@ -378,7 +378,9 @@
     <!-- SIDEBAR -->
     <aside class="sidebar">
         <div class="sidebar-brand">
-            <div class="sidebar-avatar">👨‍🍳</div>
+            <div class="sidebar-avatar" style="width:64px; height:64px; border-radius:14px; background:#fff; padding:6px; display:flex; align-items:center; justify-content:center; overflow:hidden; margin-bottom:10px;">
+                <img src="{{ asset('images/logo.png') }}" style="width:100%; height:100%; object-fit:contain;" alt="Logo">
+            </div>
             <h2>Admin Panel</h2>
             <p>{{ auth()->user()->name }}</p>
         </div>
@@ -392,6 +394,9 @@
             </a>
             <a href="{{ route('admin.orders') }}" class="nav-item active">
                 <span>🛒</span> Manage Orders
+            </a>
+            <a href="{{ route('customers.index') }}" class="nav-item" id="nav-customer-info">
+                <span>👥</span> Customer Info
             </a>
         </nav>
 
