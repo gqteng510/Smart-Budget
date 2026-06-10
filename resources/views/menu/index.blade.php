@@ -66,6 +66,55 @@
             border-color: rgba(255,255,255,0.4);
         }
 
+        .nav-link {
+            color: #F5E9DC;
+            font-size: 0.85rem;
+            font-weight: 500;
+            text-decoration: none;
+            padding: 7px 14px;
+            border-radius: 8px;
+            transition: background 0.2s, color 0.2s;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+        }
+        .nav-link:hover {
+            background: rgba(255,255,255,0.08);
+            color: #E8A96A;
+        }
+        .cart-badge {
+            background: #E8A96A;
+            color: #3D2010;
+            font-size: 0.72rem;
+            font-weight: 700;
+            padding: 2px 7px;
+            border-radius: 10px;
+            margin-left: 2px;
+        }
+
+        /* ── ALERT ── */
+        .alert {
+            max-width: 1400px;
+            margin: 20px auto 0;
+            padding: 14px 20px;
+            border-radius: 12px;
+            font-size: 0.9rem;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            animation: fadeUp 0.3s ease-out;
+        }
+        .alert-success {
+            background: rgba(52,168,83,0.12);
+            border: 1px solid rgba(52,168,83,0.25);
+            color: #2e7d32;
+        }
+        .alert-error {
+            background: rgba(220,80,60,0.08);
+            border: 1px solid rgba(220,80,60,0.15);
+            color: #c62828;
+        }
+
         /* ── HERO BANNER ── */
         .hero {
             background: linear-gradient(135deg, #6B3E1E 0%, #8B5E3C 60%, #B87346 100%);
@@ -336,10 +385,21 @@
 </head>
 <body>
 
+    @php
+        $cartCount = count(session('cart', []));
+    @endphp
     <!-- NAVBAR -->
     <nav class="navbar">
-        <div class="nav-brand">🍽️ <span>Dine</span>Easy</div>
+        <div class="nav-brand" style="display:flex; align-items:center; gap:10px;">
+            <img src="{{ asset('images/logo.png') }}" style="height:38px; object-fit:contain;" alt="Logo">
+            <span style="color:#F5E9DC;">Ezzati Catering</span>
+        </div>
         <div class="nav-right">
+            <a href="{{ route('dashboard') }}" class="nav-link" id="nav-dashboard">📊 Dashboard</a>
+            <a href="{{ route('orders.index') }}" class="nav-link" id="nav-my-orders">📋 My Orders</a>
+            <a href="{{ route('cart.index') }}" class="nav-link" id="nav-cart" style="margin-right: 12px;">
+                🛒 Cart @if($cartCount > 0)<span class="cart-badge">{{ $cartCount }}</span>@endif
+            </a>
             <span class="nav-user">Hello, {{ auth()->user()->name }}</span>
             <form method="POST" action="{{ route('logout') }}" style="margin:0;">
                 @csrf
@@ -347,6 +407,17 @@
             </form>
         </div>
     </nav>
+
+    @if(session('success'))
+        <div class="alert alert-success">
+            <span>✅</span> {{ session('success') }}
+        </div>
+    @endif
+    @if(session('error'))
+        <div class="alert alert-error">
+            <span>❌</span> {{ session('error') }}
+        </div>
+    @endif
 
     <!-- HERO -->
     <div class="hero">
@@ -417,7 +488,10 @@
                         @endif
                         <div class="card-footer">
                             <div class="price"><span>RM</span>{{ number_format($menu->price, 2) }}</div>
-                            <button class="btn-cart" onclick="alert('Added to cart!')">Add to Cart</button>
+                            <form action="{{ route('cart.add', $menu) }}" method="POST" style="margin:0;">
+                                @csrf
+                                <button type="submit" class="btn-cart" id="btn-add-to-cart-{{ $menu->id }}">Add to Cart</button>
+                            </form>
                         </div>
                     </div>
                 </div>

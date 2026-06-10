@@ -224,7 +224,9 @@
 </head>
 <body>
     <div class="card">
-        <div class="icon-wrap">🍽️</div>
+        <div class="icon-wrap" style="background:#fff; display:flex; align-items:center; justify-content:center; overflow:hidden; padding:12px;">
+            <img src="{{ asset('images/logo.png') }}" style="width:100%; height:100%; object-fit:contain;" alt="Logo">
+        </div>
 
         <h1>Plan Your Dining</h1>
         <p class="subtitle">Tell us a little about your visit so we can help you order smarter.</p>

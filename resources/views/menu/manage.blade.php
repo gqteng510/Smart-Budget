@@ -423,6 +423,70 @@
         }
         .btn-confirm-delete:hover { background: rgba(239,68,68,0.3); }
 
+        .admin-filter-bar {
+            display: flex;
+            gap: 16px;
+            align-items: center;
+            margin-bottom: 24px;
+            flex-wrap: wrap;
+            background: rgba(255,255,255,0.02);
+            border: 1px solid rgba(184,115,70,0.12);
+            padding: 16px;
+            border-radius: 14px;
+        }
+
+        .filter-group {
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+        }
+
+        .filter-label {
+            font-size: 0.72rem;
+            color: rgba(232,213,196,0.4);
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            font-weight: 600;
+        }
+
+        .filter-input {
+            background: rgba(0,0,0,0.2);
+            border: 1px solid rgba(184,115,70,0.25);
+            color: #E8D5C4;
+            padding: 10px 16px;
+            border-radius: 8px;
+            font-size: 0.88rem;
+            font-family: 'Inter', sans-serif;
+            width: 250px;
+            outline: none;
+            transition: border-color 0.2s;
+        }
+        .filter-input:focus {
+            border-color: #E8A96A;
+        }
+
+        .filter-select {
+            background: rgba(0,0,0,0.2);
+            border: 1px solid rgba(184,115,70,0.25);
+            color: #E8D5C4;
+            padding: 10px 16px;
+            border-radius: 8px;
+            font-size: 0.88rem;
+            font-family: 'Inter', sans-serif;
+            width: 180px;
+            outline: none;
+            cursor: pointer;
+            transition: border-color 0.2s;
+        }
+        .filter-select:focus {
+            border-color: #E8A96A;
+        }
+
+        .filter-select option {
+            background: #2C1504;
+            color: #E8D5C4;
+        }
+
         @media (max-width: 768px) {
             .sidebar { display: none; }
             .main { margin-left: 0; padding: 24px 16px; }
@@ -434,7 +498,7 @@
     <!-- SIDEBAR -->
     <aside class="sidebar">
         <div class="sidebar-brand">
-            <div class="sidebar-avatar">👨‍🍳</div>
+            <div class="sidebar-avatar" style="background:#fff; padding:6px; display:flex; align-items:center; justify-content:center; overflow:hidden;"><img src="{{ asset('images/logo.png') }}" style="width:100%; height:100%; object-fit:contain;" alt="Logo"></div>
             <h2>Admin Panel</h2>
             <p>{{ auth()->user()->name }}</p>
         </div>
@@ -445,6 +509,9 @@
             </a>
             <a href="{{ route('menu.create') }}" class="nav-item">
                 <span>➕</span> Add New Item
+            </a>
+            <a href="{{ route('admin.orders') }}" class="nav-item" id="nav-manage-orders">
+                <span>🛒</span> Manage Orders
             </a>
         </nav>
 
@@ -502,6 +569,27 @@
             </div>
         </div>
 
+        <!-- Filter Bar -->
+        @php
+            $uniqueCategories = $menus->pluck('category')->unique()->filter()->values();
+        @endphp
+        <div class="admin-filter-bar">
+            <div class="filter-group">
+                <label class="filter-label" for="search-input">Search Name</label>
+                <input type="text" id="search-input" class="filter-input" placeholder="Search dish name..." oninput="applyFilters()">
+            </div>
+            
+            <div class="filter-group">
+                <label class="filter-label" for="category-select">Category</label>
+                <select id="category-select" class="filter-select" onchange="applyFilters()">
+                    <option value="all">All Categories</option>
+                    @foreach($uniqueCategories as $cat)
+                        <option value="{{ Str::slug($cat) }}">{{ $cat }}</option>
+                    @endforeach
+                </select>
+            </div>
+        </div>
+
         <!-- Table -->
         <div class="table-card">
             <div class="table-header">
@@ -528,7 +616,7 @@
                     </thead>
                     <tbody>
                         @foreach($menus as $index => $menu)
-                        <tr>
+                        <tr class="menu-row" data-category="{{ Str::slug($menu->category) }}" data-name="{{ strtolower($menu->name) }}">
                             <td style="color:rgba(232,213,196,0.35);">{{ $index + 1 }}</td>
                             <td>
                                 <div class="td-thumb">
@@ -596,6 +684,34 @@
     </div>
 
     <script>
+        function applyFilters() {
+            const searchVal = document.getElementById('search-input').value.toLowerCase().trim();
+            const catVal = document.getElementById('category-select').value;
+            const rows = document.querySelectorAll('.menu-row');
+            let visibleCount = 0;
+
+            rows.forEach(row => {
+                const name = row.dataset.name;
+                const category = row.dataset.category;
+
+                const matchesSearch = name.includes(searchVal);
+                const matchesCat = (catVal === 'all' || category === catVal);
+
+                if (matchesSearch && matchesCat) {
+                    row.style.display = '';
+                    visibleCount++;
+                } else {
+                    row.style.display = 'none';
+                }
+            });
+
+            // Update item count badge
+            const countBadge = document.querySelector('.item-count');
+            if (countBadge) {
+                countBadge.textContent = visibleCount + (visibleCount === 1 ? ' item' : ' items');
+            }
+        }
+
         function confirmDelete(id, name) {
             document.getElementById('modal-item-name').textContent =
                 'Are you sure you want to delete "' + name + '"? This cannot be undone.';

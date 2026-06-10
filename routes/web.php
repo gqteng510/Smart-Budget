@@ -3,16 +3,24 @@
 use App\Http\Controllers\MenuController;
 use App\Http\Controllers\CustomerController;
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\CartController;
+use App\Http\Controllers\OrderController;
 use Illuminate\Support\Facades\Route;
 
 Route::redirect('/', '/login');
 
-// Dashboard — redirects based on role
+// Dashboard — redirects or shows customer portal
 Route::get('/dashboard', function () {
     if (auth()->user()->usertype === 'admin') {
         return redirect()->route('menu.manage');
     }
-    return redirect()->route('menu.pax');
+    
+    $user = auth()->user();
+    $totalOrders = $user->orders()->count();
+    $totalSpent = $user->orders()->whereIn('status', ['accepted', 'completed'])->sum('total_price');
+    $completedOrders = $user->orders()->where('status', 'completed')->count();
+    
+    return view('dashboard', compact('totalOrders', 'totalSpent', 'completedOrders'));
 })->middleware(['auth', 'verified'])->name('dashboard');
 
 Route::middleware('auth')->group(function () {
@@ -32,6 +40,16 @@ Route::middleware('auth')->group(function () {
     Route::get('/customers/create', [CustomerController::class, 'create'])->name('customers.create');
     Route::post('/customers', [CustomerController::class, 'store'])->name('customers.store');
 
+    // Cart routes
+    Route::get('/cart', [CartController::class, 'index'])->name('cart.index');
+    Route::post('/cart/add/{menu}', [CartController::class, 'add'])->name('cart.add');
+    Route::patch('/cart/update/{menu}', [CartController::class, 'update'])->name('cart.update');
+    Route::delete('/cart/remove/{menu}', [CartController::class, 'remove'])->name('cart.remove');
+
+    // Customer order routes
+    Route::post('/order/place', [OrderController::class, 'store'])->name('order.place');
+    Route::get('/orders', [OrderController::class, 'index'])->name('orders.index');
+
     // Admin-only routes
     Route::middleware('admin')->group(function () {
         Route::get('/menu/manage', [MenuController::class, 'manage'])->name('menu.manage');
@@ -43,6 +61,10 @@ Route::middleware('auth')->group(function () {
 
         // View Customers
         Route::get('/customers', [CustomerController::class, 'index'])->name('customers.index');
+
+        // Admin Order Management routes
+        Route::get('/admin/orders', [OrderController::class, 'adminIndex'])->name('admin.orders');
+        Route::patch('/admin/orders/{order}/status', [OrderController::class, 'updateStatus'])->name('admin.orders.status');
     });
 });
 
