@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\MenuController;
+use App\Http\Controllers\CustomerController;
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 
@@ -27,6 +28,10 @@ Route::middleware('auth')->group(function () {
     // Normal user: browse menu (requires pax session)
     Route::get('/menu', [MenuController::class, 'index'])->name('menu.index');
 
+    // Normal user: enter customer info
+    Route::get('/customers/create', [CustomerController::class, 'create'])->name('customers.create');
+    Route::post('/customers', [CustomerController::class, 'store'])->name('customers.store');
+
     // Admin-only routes
     Route::middleware('admin')->group(function () {
         Route::get('/menu/manage', [MenuController::class, 'manage'])->name('menu.manage');
@@ -35,6 +40,9 @@ Route::middleware('auth')->group(function () {
         Route::get('/menu/{menu}/edit', [MenuController::class, 'edit'])->name('menu.edit');
         Route::put('/menu/{menu}', [MenuController::class, 'update'])->name('menu.update');
         Route::delete('/menu/{menu}', [MenuController::class, 'destroy'])->name('menu.destroy');
+
+        // View Customers
+        Route::get('/customers', [CustomerController::class, 'index'])->name('customers.index');
     });
 });
 

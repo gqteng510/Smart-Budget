@@ -1,41 +1,46 @@
 @extends('layouts.app')
 
 @section('content')
-<div class="container mt-4">
-    <div class="d-flex justify-content-between align-items-center mb-3">
-        <h2 class="h4 text-primary">Customer List</h2>
-        <a href="{{ route('customers.create') }}" class="btn btn-success">+ Add Customer</a>
-    </div>
-
-    @if (session('success'))
-        <div class="alert alert-success">
-            {{ session('success') }}
+<div class="bg-[#f8f1e7] min-h-screen">
+    <div class="max-w-5xl mx-auto mt-6">
+        <!-- Header -->
+        <div class="bg-[#6b4226] text-white p-4 rounded-t shadow flex justify-between items-center">
+            <div>
+                <h2 class="text-lg font-semibold">Customer List</h2>
+                <small class="text-gray-200">View Customers' Information</small>
+            </div>
         </div>
-    @endif
 
-    <div class="card shadow">
-        <div class="card-body p-0">
-            <table class="table table-bordered table-striped mb-0">
-                <thead class="table-dark">
+        <!-- Success message -->
+        @if (session('success'))
+            <div class="bg-green-100 text-green-800 p-3 rounded mb-4">
+                {{ session('success') }}
+            </div>
+        @endif
+
+        <!-- Table container -->
+        <div class="bg-[#d2b48c] p-6 rounded-b shadow overflow-x-auto">
+            <table class="w-full border-collapse">
+                <thead class="bg-[#6b4226] text-white">
                     <tr>
-                        <th>Name</th>
-                        <th>Email</th>
-                        <th>Phone</th>
-                        <th>Address</th>
+                        <th class="px-4 py-2 text-left">Name</th>
+                        <th class="px-4 py-2 text-left">Email</th>
+                        <th class="px-4 py-2 text-left">Phone</th>
+                        <th class="px-4 py-2 text-left">Address</th>
                     </tr>
                 </thead>
                 <tbody>
                     @forelse ($customers as $customer)
-                        <tr>
-                            <td>{{ $customer->name }}</td>
-                            <td>{{ $customer->email }}</td>
-                            <td>{{ $customer->phone }}</td>
-                            <td>{{ $customer->address }}</td>
+                        <tr class="bg-white border-b border-gray-300">
+                            <td class="px-4 py-2">{{ $customer->name }}</td>
+                            <td class="px-4 py-2">{{ $customer->email }}</td>
+                            <td class="px-4 py-2">{{ $customer->phone }}</td>
+                            <td class="px-4 py-2">{{ $customer->address }}</td>
                         </tr>
                     @empty
                         <tr>
-                            <td colspan="4" class="text-center text-muted">
-                                No customers found. <strong>Click Add Customer to create one.</strong>
+                            <td colspan="4" class="px-4 py-6 text-center text-gray-500">
+                                No customers found.
                             </td>
                         </tr>
                     @endforelse
