@@ -487,13 +487,13 @@
                 </div>
                 
                 <div class="summary-row">
-                    <span>Per Pax Budget Limit</span>
-                    <span style="font-weight:600;color:#3D2010;">RM {{ number_format($budget, 2) }}</span>
+                    <span>Budget per Pax</span>
+                    <span style="font-weight:600;color:#3D2010;">RM {{ number_format($pax > 0 ? $budget / $pax : 0, 2) }}</span>
                 </div>
 
                 <div class="summary-row">
-                    <span>Total Catering Budget</span>
-                    <span style="font-weight:600;color:#3D2010;">RM {{ number_format($budget * $pax, 2) }}</span>
+                    <span>Total Budget Limit</span>
+                    <span style="font-weight:600;color:#3D2010;">RM {{ number_format($budget, 2) }}</span>
                 </div>
 
                 <div class="summary-row total">
@@ -503,7 +503,7 @@
 
                 <!-- Budget Calculator Feedback -->
                 @php
-                    $maxAllowed = $budget * $pax;
+                    $maxAllowed = $budget;
                     $isOverBudget = $totalPrice > $maxAllowed;
                 @endphp
 

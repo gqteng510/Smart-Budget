@@ -18,12 +18,13 @@ test('normal user can access pax entry page', function () {
     $response->assertViewIs('menu.pax');
 });
 
-test('normal user dashboard route redirects to menu/pax', function () {
+test('normal user dashboard route returns dashboard view', function () {
     $user = User::factory()->create(['usertype' => 'user']);
 
     $response = $this->actingAs($user)->get('/dashboard');
 
-    $response->assertRedirect(route('menu.pax'));
+    $response->assertOk();
+    $response->assertViewIs('dashboard');
 });
 
 test('normal user can submit pax & budget form and is redirected to menu page', function () {

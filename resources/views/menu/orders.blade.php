@@ -471,7 +471,7 @@
                         <tr>
                             <th style="width:70px;">Order #</th>
                             <th style="width:200px;">Customer</th>
-                            <th>Pax / Budget limit</th>
+                            <th>Pax / Total Budget</th>
                             <th style="width:280px;">Items Ordered</th>
                             <th>Total Price</th>
                             <th style="width:100px;">Status</th>
@@ -489,7 +489,7 @@
                             </td>
                             <td>
                                 <div><span class="td-bold">{{ $order->pax }}</span> pax</div>
-                                <div style="font-size:0.78rem;color:rgba(232,213,196,0.45);margin-top:2px;">Limit: RM {{ number_format($order->budget, 2) }}/pax</div>
+                                <div style="font-size:0.78rem;color:rgba(232,213,196,0.45);margin-top:2px;">Limit: RM {{ number_format($order->budget, 2) }}</div>
                             </td>
                             <td>
                                 <ul class="ordered-items-list">

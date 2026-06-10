@@ -208,13 +208,13 @@
         <h1 class="page-title">Edit Menu Item</h1>
         <p class="page-subtitle">Update the details for <strong style="color:#E8A96A;">{{ $menu->name }}</strong></p>
 
-        <div class="edit-layout">
-            <!-- Form -->
-            <div class="form-card">
-                <form method="POST" action="{{ route('menu.update', $menu) }}" enctype="multipart/form-data">
-                    @csrf
-                    @method('PUT')
+        <form method="POST" action="{{ route('menu.update', $menu) }}" enctype="multipart/form-data">
+            @csrf
+            @method('PUT')
 
+            <div class="edit-layout">
+                <!-- Form Fields -->
+                <div class="form-card">
                     <div class="form-grid">
                         <!-- Name -->
                         <div class="form-group full">
@@ -256,40 +256,31 @@
                         </button>
                         <a href="{{ route('menu.manage') }}" class="btn-cancel">Cancel</a>
                     </div>
-                </form>
-            </div>
-
-            <!-- Side Panel: Image -->
-            <div class="side-panel">
-                <h3>Current Image</h3>
-                <div class="current-img" id="current-img-wrap">
-                    @if($menu->image)
-                        <img src="{{ asset('images/' . $menu->image) }}" alt="{{ $menu->name }}" id="existing-img">
-                    @else
-                        <span class="no-img-placeholder">🍜</span>
-                    @endif
                 </div>
 
-                <span class="change-img-label">Replace Image</span>
-                <div class="upload-area">
-                    <form method="POST" action="{{ route('menu.update', $menu) }}" enctype="multipart/form-data" id="img-form">
-                        @csrf
-                        @method('PUT')
-                        {{-- Hidden fields to carry existing data when only image is updated --}}
-                        <input type="hidden" name="name" value="{{ $menu->name }}">
-                        <input type="hidden" name="price" value="{{ $menu->price }}">
-                        <input type="hidden" name="category" value="{{ $menu->category }}">
-                        <input type="hidden" name="description" value="{{ $menu->description }}">
+                <!-- Side Panel: Image -->
+                <div class="side-panel">
+                    <h3>Current Image</h3>
+                    <div class="current-img" id="current-img-wrap">
+                        @if($menu->image)
+                            <img src="{{ asset('images/' . $menu->image) }}" alt="{{ $menu->name }}" id="existing-img">
+                        @else
+                            <span class="no-img-placeholder">🍜</span>
+                        @endif
+                    </div>
+
+                    <span class="change-img-label">Replace Image</span>
+                    <div class="upload-area">
                         <input type="file" id="image" name="image" accept="image/*" onchange="previewImage(event)">
-                    </form>
-                    <div style="font-size:1.5rem;margin-bottom:6px;">🖼️</div>
-                    <p class="upload-text"><strong>Click to replace</strong></p>
-                    <p class="upload-text" style="font-size:0.75rem;margin-top:3px;">PNG, JPG, GIF up to 2MB</p>
-                    <img id="image-preview" src="" alt="New Preview">
+                        <div style="font-size:1.5rem;margin-bottom:6px;">🖼️</div>
+                        <p class="upload-text"><strong>Click to replace</strong></p>
+                        <p class="upload-text" style="font-size:0.75rem;margin-top:3px;">PNG, JPG, GIF up to 2MB</p>
+                        <img id="image-preview" src="" alt="New Preview">
+                    </div>
+                    @error('image') <p class="error-msg" style="margin-top:8px;">{{ $message }}</p> @enderror
                 </div>
-                @error('image') <p class="error-msg" style="margin-top:8px;">{{ $message }}</p> @enderror
             </div>
-        </div>
+        </form>
     </div>
 
     <script>

@@ -19,7 +19,8 @@ test('profile information can be updated', function () {
         ->actingAs($user)
         ->patch('/profile', [
             'name' => 'Test User',
-            'email' => 'test@example.com',
+            'phone' => '011-234-567',
+            'address' => 'No.13 Taman Malim',
         ]);
 
     $response
@@ -29,24 +30,27 @@ test('profile information can be updated', function () {
     $user->refresh();
 
     $this->assertSame('Test User', $user->name);
-    $this->assertSame('test@example.com', $user->email);
-    $this->assertNull($user->email_verified_at);
+    $this->assertSame('011-234-567', $user->phone);
+    $this->assertSame('No.13 Taman Malim', $user->address);
 });
 
-test('email verification status is unchanged when the email address is unchanged', function () {
+test('email remains unchanged after profile update', function () {
     $user = User::factory()->create();
+    $originalEmail = $user->email;
 
     $response = $this
         ->actingAs($user)
         ->patch('/profile', [
             'name' => 'Test User',
-            'email' => $user->email,
+            'phone' => $user->phone,
+            'address' => $user->address,
         ]);
 
     $response
         ->assertSessionHasNoErrors()
         ->assertRedirect('/profile');
 
+    $this->assertSame($originalEmail, $user->refresh()->email);
     $this->assertNotNull($user->refresh()->email_verified_at);
 });
 

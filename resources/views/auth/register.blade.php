@@ -11,15 +11,18 @@
             display: flex;
             justify-content: center;
             align-items: center;
-            height: 100vh;
+            min-height: 100vh;
+            padding: 40px 0;
         }
 
         .container {
             background: white;
-            width: 420px;
-            padding: 35px;
+            width: 440px;
+            padding: 30px;
             border-radius: 14px;
             box-shadow: 0 4px 15px rgba(0,0,0,0.08);
+            max-height: 95vh;
+            overflow-y: auto;
         }
 
         h1 {
@@ -32,31 +35,39 @@
         .subtitle {
             text-align: center;
             color: #666;
-            margin-bottom: 30px;
+            margin-bottom: 25px;
             font-size: 14px;
         }
 
         label {
-            font-size: 15px;
+            font-size: 14px;
             font-weight: bold;
             display: block;
-            margin-bottom: 8px;
+            margin-bottom: 6px;
             color: #222;
         }
 
         input {
             width: 100%;
-            padding: 13px;
-            margin-bottom: 20px;
+            padding: 12px;
+            margin-bottom: 18px;
             border-radius: 8px;
             border: 1px solid #d1d5db;
-            font-size: 15px;
+            font-size: 14px;
             box-sizing: border-box;
         }
 
         input:focus {
             outline: none;
             border-color: #4CAF50;
+        }
+
+        .error-text {
+            color: #c62828;
+            font-size: 12px;
+            margin-top: -14px;
+            margin-bottom: 14px;
+            display: block;
         }
 
         .register-btn {
@@ -105,7 +116,7 @@
 
     <p class="subtitle">Create your Ezzati Catering account</p>
 
-    <form method="POST" action="{{ route('register') }}">
+    <form method="POST" action="{{ route('register') }}" enctype="multipart/form-data">
 
         @csrf
 
@@ -115,8 +126,12 @@
             type="text" 
             name="name"
             placeholder="Enter your name"
+            value="{{ old('name') }}"
             required
         >
+        @error('name')
+            <span class="error-text">{{ $message }}</span>
+        @enderror
 
         <label>📧 Email</label>
 
@@ -124,8 +139,50 @@
             type="email"
             name="email"
             placeholder="Enter your email"
+            value="{{ old('email') }}"
             required
         >
+        @error('email')
+            <span class="error-text">{{ $message }}</span>
+        @enderror
+
+        <label>📞 Phone Number</label>
+
+        <input 
+            type="text"
+            name="phone"
+            placeholder="Enter your phone number"
+            value="{{ old('phone') }}"
+            required
+        >
+        @error('phone')
+            <span class="error-text">{{ $message }}</span>
+        @enderror
+
+        <label>📍 Default Address</label>
+
+        <input 
+            type="text"
+            name="address"
+            placeholder="Enter your address"
+            value="{{ old('address') }}"
+            required
+        >
+        @error('address')
+            <span class="error-text">{{ $message }}</span>
+        @enderror
+
+        <label>🖼️ Profile Picture</label>
+
+        <input 
+            type="file"
+            name="avatar"
+            accept="image/*"
+            style="padding: 8px;"
+        >
+        @error('avatar')
+            <span class="error-text">{{ $message }}</span>
+        @enderror
 
         <label>🔑 Password</label>
 
@@ -135,6 +192,9 @@
             placeholder="Enter your password"
             required
         >
+        @error('password')
+            <span class="error-text">{{ $message }}</span>
+        @enderror
 
         <label>🔒 Confirm Password</label>
 

@@ -10,9 +10,9 @@
 
         body {
             font-family: 'Inter', sans-serif;
-            background: #f8fafc;
+            background: #F5E9DC;
             min-height: 100vh;
-            color: #1e293b;
+            color: #3D2010;
             display: flex;
         }
 
@@ -20,7 +20,7 @@
         .sidebar {
             width: 260px;
             background: #ffffff;
-            border-right: 1px solid #e2e8f0;
+            border-right: 1px solid rgba(139,94,60,0.15);
             display: flex;
             flex-direction: column;
             padding: 24px 0;
@@ -35,13 +35,13 @@
             align-items: center;
             gap: 12px;
             padding: 0 24px 20px;
-            border-bottom: 1px solid #f1f5f9;
+            border-bottom: 1px solid rgba(139,94,60,0.08);
         }
 
         .brand-icon {
             width: 40px;
             height: 40px;
-            background: #0ea76a;
+            background: linear-gradient(135deg, #8B5E3C, #B87346);
             border-radius: 12px;
             display: flex;
             align-items: center;
@@ -53,12 +53,12 @@
         .brand-info h2 {
             font-size: 0.95rem;
             font-weight: 700;
-            color: #0f172a;
+            color: #3D2010;
             line-height: 1.2;
         }
         .brand-info p {
             font-size: 0.72rem;
-            color: #64748b;
+            color: #8B6B52;
             font-weight: 500;
         }
 
@@ -67,21 +67,22 @@
             align-items: center;
             gap: 12px;
             padding: 20px 24px;
-            border-bottom: 1px solid #f1f5f9;
+            border-bottom: 1px solid rgba(139,94,60,0.08);
             margin-bottom: 16px;
         }
 
         .user-avatar {
             width: 42px;
             height: 42px;
-            background: #e6f7f0;
-            color: #0ea76a;
+            background: #EDD5BE;
+            color: #8B5E3C;
             border-radius: 50%;
             display: flex;
             align-items: center;
             justify-content: center;
             font-weight: 700;
             font-size: 1.1rem;
+            box-shadow: 0 2px 8px rgba(139,94,60,0.15);
         }
 
         .user-info {
@@ -90,14 +91,14 @@
         .user-info h3 {
             font-size: 0.88rem;
             font-weight: 700;
-            color: #0f172a;
+            color: #3D2010;
             white-space: nowrap;
             overflow: hidden;
             text-overflow: ellipsis;
         }
         .user-info p {
             font-size: 0.72rem;
-            color: #64748b;
+            color: #8B6B52;
             white-space: nowrap;
             overflow: hidden;
             text-overflow: ellipsis;
@@ -114,7 +115,7 @@
             gap: 12px;
             padding: 12px 16px;
             border-radius: 10px;
-            color: #475569;
+            color: #5C3D1E;
             font-size: 0.9rem;
             font-weight: 500;
             cursor: pointer;
@@ -123,13 +124,15 @@
             margin-bottom: 4px;
         }
         .nav-item:hover {
-            background: #f1f5f9;
-            color: #0f172a;
+            background: #F5E9DC;
+            color: #3D2010;
         }
         .nav-item.active {
-            background: #e6f7f0;
-            color: #0ea76a;
+            background: #EDD5BE;
+            color: #6B3E1E;
             font-weight: 600;
+            box-shadow: inset 0 1px 0 rgba(255,255,255,0.5);
+            border: 1px solid rgba(139,94,60,0.1);
         }
 
         .sidebar-footer {
@@ -144,7 +147,7 @@
             padding: 12px 16px;
             background: transparent;
             border: none;
-            color: #64748b;
+            color: #8B6B52;
             border-radius: 10px;
             font-size: 0.9rem;
             font-weight: 500;
@@ -154,8 +157,8 @@
             text-align: left;
         }
         .btn-logout-side:hover {
-            background: #fef2f2;
-            color: #ef4444;
+            background: rgba(198,40,40,0.06);
+            color: #c62828;
         }
 
         /* ── MAIN CONTENT ── */
@@ -168,18 +171,25 @@
         .dashboard-title {
             font-size: 1.25rem;
             font-weight: 700;
-            color: #0f172a;
+            color: #3D2010;
             margin-bottom: 24px;
         }
 
         /* ── BANNER CARD ── */
         .greeting-banner {
-            background: #0ea76a;
+            background: linear-gradient(135deg, #6B3E1E 0%, #8B5E3C 60%, #B87346 100%);
             border-radius: 16px;
             padding: 28px 32px;
             color: #ffffff;
             margin-bottom: 28px;
-            box-shadow: 0 4px 12px rgba(14,167,106,0.15);
+            box-shadow: 0 6px 20px rgba(139,94,60,0.25);
+            position: relative;
+            overflow: hidden;
+        }
+        .greeting-banner::before {
+            content: '';
+            position: absolute; inset: 0;
+            background: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='0.03'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
         }
 
         .greeting-banner p {
@@ -187,6 +197,7 @@
             opacity: 0.9;
             margin-bottom: 4px;
             font-weight: 500;
+            position: relative;
         }
 
         .greeting-banner h1 {
@@ -194,12 +205,14 @@
             font-weight: 700;
             margin-bottom: 6px;
             letter-spacing: -0.01em;
+            position: relative;
         }
 
         .greeting-banner span {
             font-size: 0.88rem;
             opacity: 0.8;
             font-weight: 400;
+            position: relative;
         }
 
         /* ── STATS CARDS ── */
@@ -218,13 +231,13 @@
 
         .stat-card {
             background: #ffffff;
-            border: 1px solid #e2e8f0;
+            border: 1px solid rgba(139,94,60,0.15);
             border-radius: 16px;
             padding: 24px;
             display: flex;
             flex-direction: column;
             gap: 16px;
-            box-shadow: 0 1px 3px rgba(0,0,0,0.02);
+            box-shadow: 0 4px 12px rgba(139,94,60,0.06);
         }
 
         .stat-icon-wrap {
@@ -237,20 +250,20 @@
             font-size: 1.2rem;
         }
 
-        .stat-icon-wrap.purple { background: #faf5ff; color: #a855f7; }
-        .stat-icon-wrap.green { background: #ecfdf5; color: #10b981; }
-        .stat-icon-wrap.blue { background: #f0f9ff; color: #0ea5e9; }
+        .stat-icon-wrap.purple { background: rgba(168,85,247,0.1); color: #a855f7; }
+        .stat-icon-wrap.green { background: rgba(139,94,60,0.1); color: #8B5E3C; }
+        .stat-icon-wrap.blue { background: rgba(14,165,233,0.1); color: #0ea5e9; }
 
         .stat-value {
             font-size: 1.5rem;
             font-weight: 700;
-            color: #0f172a;
+            color: #3D2010;
             line-height: 1.1;
         }
 
         .stat-label {
             font-size: 0.8rem;
-            color: #64748b;
+            color: #8B6B52;
             font-weight: 500;
         }
 
@@ -258,7 +271,7 @@
         .actions-title {
             font-size: 0.95rem;
             font-weight: 700;
-            color: #0f172a;
+            color: #3D2010;
             margin-bottom: 16px;
         }
 
@@ -290,26 +303,26 @@
         }
 
         .btn-action.primary {
-            background: #0ea76a;
+            background: linear-gradient(135deg, #8B5E3C, #B87346);
             color: #ffffff;
-            box-shadow: 0 4px 12px rgba(14,167,106,0.15);
+            box-shadow: 0 4px 15px rgba(139,94,60,0.3);
         }
         .btn-action.primary:hover {
-            background: #0c935c;
-            transform: translateY(-1px);
-            box-shadow: 0 6px 16px rgba(14,167,106,0.22);
+            background: linear-gradient(135deg, #7A5234, #A66538);
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(139,94,60,0.4);
         }
 
         .btn-action.secondary {
             background: #ffffff;
-            border: 1px solid #e2e8f0;
-            color: #334155;
-            box-shadow: 0 1px 3px rgba(0,0,0,0.02);
+            border: 1px solid rgba(139,94,60,0.25);
+            color: #5C3D1E;
+            box-shadow: 0 4px 12px rgba(139,94,60,0.06);
         }
         .btn-action.secondary:hover {
-            background: #f8fafc;
-            border-color: #cbd5e1;
-            transform: translateY(-1px);
+            background: rgba(139,94,60,0.05);
+            border-color: #8B5E3C;
+            transform: translateY(-2px);
         }
 
         .btn-action-icon {
@@ -320,7 +333,7 @@
 
         @media (max-width: 768px) {
             body { flex-direction: column; }
-            .sidebar { width: 100%; height: auto; position: relative; border-right: none; border-bottom: 1px solid #e2e8f0; }
+            .sidebar { width: 100%; height: auto; position: relative; border-right: none; border-bottom: 1px solid rgba(139,94,60,0.15); }
             .main { margin-left: 0; padding: 24px; }
         }
     </style>
@@ -344,7 +357,11 @@
         </div>
 
         <div class="sidebar-user">
-            <div class="user-avatar">{{ $initial }}</div>
+            @if(auth()->user()->avatar)
+                <img src="{{ asset('images/' . auth()->user()->avatar) }}" class="user-avatar" style="object-fit:cover;" alt="Avatar">
+            @else
+                <div class="user-avatar">{{ $initial }}</div>
+            @endif
             <div class="user-info">
                 <h3>{{ $userName }}</h3>
                 <p title="{{ $userEmail }}">{{ $userEmail }}</p>
