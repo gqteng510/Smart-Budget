@@ -15,8 +15,8 @@ return new class extends Migration
             $table->id();
             $table->foreignId('user_id')->constrained()->onDelete('cascade');
             $table->integer('pax')->nullable();
-            $table->integer('budget')->nullable();
-            $table->integer('total_price');
+            $table->decimal('budget', 10, 2)->nullable();
+            $table->decimal('total_price', 10, 2);
             $table->string('status')->default('pending');
             $table->timestamps();
         });
@@ -26,7 +26,7 @@ return new class extends Migration
             $table->foreignId('order_id')->constrained()->onDelete('cascade');
             $table->foreignId('menu_id')->nullable()->constrained()->onDelete('set null');
             $table->string('name');
-            $table->integer('price');
+            $table->decimal('price', 8, 2);
             $table->integer('quantity')->default(1);
             $table->timestamps();
         });

@@ -12,7 +12,7 @@ Route::redirect('/', '/login');
 // Dashboard — redirects or shows customer portal
 Route::get('/dashboard', function () {
     if (auth()->user()->usertype === 'admin') {
-        return redirect()->route('menu.manage');
+        return redirect()->route('admin.dashboard');
     }
     
     $user = auth()->user();
@@ -53,6 +53,7 @@ Route::middleware('auth')->group(function () {
 
     // Admin-only routes
     Route::middleware('admin')->group(function () {
+        Route::get('/admin/dashboard', [OrderController::class, 'adminDashboard'])->name('admin.dashboard');
         Route::get('/menu/manage', [MenuController::class, 'manage'])->name('menu.manage');
         Route::get('/menu/create', [MenuController::class, 'create'])->name('menu.create');
         Route::post('/menu', [MenuController::class, 'store'])->name('menu.store');

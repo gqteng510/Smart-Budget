@@ -112,6 +112,37 @@ class OrderController extends Controller
     }
 
     /**
+     * Display the admin's dashboard.
+     */
+    public function adminDashboard()
+    {
+        $totalOrdersCount = Order::count();
+        $pendingOrdersCount = Order::where('status', 'pending')->count();
+        $acceptedOrdersCount = Order::where('status', 'accepted')->count();
+        $completedOrdersCount = Order::where('status', 'completed')->count();
+        $cancelledOrdersCount = Order::where('status', 'cancelled')->count();
+        
+        $totalEarnings = Order::whereIn('status', ['accepted', 'completed'])->sum('total_price');
+        
+        $totalCustomersCount = \App\Models\User::where('usertype', 'user')->count();
+        $totalMenuItemsCount = \App\Models\Menu::count();
+        
+        $recentOrders = Order::with(['user', 'items'])->latest()->take(5)->get();
+
+        return view('admin.dashboard', compact(
+            'totalOrdersCount',
+            'pendingOrdersCount',
+            'acceptedOrdersCount',
+            'completedOrdersCount',
+            'cancelledOrdersCount',
+            'totalEarnings',
+            'totalCustomersCount',
+            'totalMenuItemsCount',
+            'recentOrders'
+        ));
+    }
+
+    /**
      * Display the admin's order management dashboard.
      */
     public function adminIndex()

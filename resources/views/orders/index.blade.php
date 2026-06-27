@@ -494,7 +494,11 @@
         </div>
 
         <div class="sidebar-user">
-            <div class="user-avatar">{{ $initial }}</div>
+            @if(auth()->user()->avatar)
+                <img src="{{ asset('images/' . auth()->user()->avatar) }}" class="user-avatar" style="object-fit:cover;" alt="Avatar">
+            @else
+                <div class="user-avatar">{{ $initial }}</div>
+            @endif
             <div class="user-info">
                 <h3>{{ $userName }}</h3>
                 <p title="{{ $userEmail }}">{{ $userEmail }}</p>

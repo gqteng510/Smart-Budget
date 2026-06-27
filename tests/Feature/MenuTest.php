@@ -60,12 +60,21 @@ test('normal user cannot access admin menu management routes', function () {
     $this->actingAs($user)->get('/menu/create')->assertStatus(403);
 });
 
-test('admin dashboard route redirects to menu/manage', function () {
+test('admin dashboard route redirects to admin dashboard', function () {
     $admin = User::factory()->create(['usertype' => 'admin']);
 
     $response = $this->actingAs($admin)->get('/dashboard');
 
-    $response->assertRedirect(route('menu.manage'));
+    $response->assertRedirect(route('admin.dashboard'));
+});
+
+test('admin can access admin dashboard', function () {
+    $admin = User::factory()->create(['usertype' => 'admin']);
+
+    $response = $this->actingAs($admin)->get('/admin/dashboard');
+
+    $response->assertOk();
+    $response->assertViewIs('admin.dashboard');
 });
 
 test('admin can access menu management page', function () {

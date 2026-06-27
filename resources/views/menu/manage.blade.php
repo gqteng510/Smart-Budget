@@ -17,102 +17,100 @@
 
         /* ── SIDEBAR ── */
         .sidebar {
-            position: fixed;
-            top: 0; left: 0;
             width: 240px;
-            height: 100vh;
-            background: linear-gradient(180deg, #2C1504 0%, #1A0F08 100%);
-            border-right: 1px solid rgba(184,115,70,0.15);
+            min-height: 100vh;
+            background: linear-gradient(180deg, #2C1206 0%, #1A0A00 100%);
+            border-right: 1px solid rgba(232,169,106,0.1);
             display: flex;
             flex-direction: column;
-            padding: 0 0 24px;
+            position: fixed;
+            top: 0; left: 0; bottom: 0;
             z-index: 100;
         }
 
         .sidebar-brand {
-            padding: 28px 24px 24px;
-            border-bottom: 1px solid rgba(184,115,70,0.12);
-            margin-bottom: 16px;
+            padding: 24px 20px 20px;
+            border-bottom: 1px solid rgba(232,169,106,0.1);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 10px;
+            text-align: center;
+        }
+
+        .sidebar-avatar {
+            width: 64px; height: 64px;
+            border-radius: 14px;
+            background: #fff;
+            padding: 6px;
+            display: flex; align-items: center; justify-content: center;
+            overflow: hidden;
         }
 
         .sidebar-brand h2 {
             font-family: 'Playfair Display', serif;
-            font-size: 1.25rem;
+            font-size: 1.2rem;
             color: #E8A96A;
+            font-weight: 700;
             line-height: 1.2;
+            letter-spacing: 0.02em;
         }
         .sidebar-brand p {
-            font-size: 0.75rem;
             color: rgba(232,213,196,0.45);
-            margin-top: 4px;
-        }
-
-        .sidebar-avatar {
-            width: 38px; height: 38px;
-            border-radius: 50%;
-            background: linear-gradient(135deg, #8B5E3C, #B87346);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 1rem;
-            margin-bottom: 10px;
-            box-shadow: 0 4px 12px rgba(139,94,60,0.4);
+            font-size: 0.75rem;
+            margin-top: 2px;
         }
 
         .sidebar-nav {
             flex: 1;
-            padding: 0 12px;
+            padding: 16px 12px;
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
         }
 
         .nav-item {
             display: flex;
             align-items: center;
             gap: 10px;
-            padding: 11px 14px;
+            padding: 10px 14px;
             border-radius: 10px;
             color: rgba(232,213,196,0.65);
             font-size: 0.88rem;
             font-weight: 500;
-            cursor: pointer;
-            transition: all 0.2s;
             text-decoration: none;
+            transition: all 0.2s;
             margin-bottom: 4px;
         }
-        .nav-item:hover {
-            background: rgba(184,115,70,0.12);
-            color: #E8D5C4;
-        }
+        .nav-item:hover { background: rgba(232,169,106,0.08); color: #E8D5C4; }
         .nav-item.active {
-            background: linear-gradient(135deg, rgba(139,94,60,0.3), rgba(184,115,70,0.2));
+            background: rgba(232,169,106,0.15);
             color: #E8A96A;
-            border: 1px solid rgba(184,115,70,0.2);
+            font-weight: 600;
         }
+        .nav-item span { font-size: 1.05rem; }
 
         .sidebar-footer {
-            padding: 0 12px;
+            padding: 16px 12px;
+            border-top: 1px solid rgba(232,169,106,0.1);
         }
-
         .btn-logout-side {
+            width: 100%;
             display: flex;
             align-items: center;
             gap: 10px;
-            width: 100%;
-            padding: 11px 14px;
-            background: rgba(220,80,60,0.08);
-            border: 1px solid rgba(220,80,60,0.15);
-            color: rgba(240,130,110,0.8);
-            border-radius: 10px;
+            padding: 10px 14px;
+            background: none;
+            border: none;
+            color: rgba(232,213,196,0.5);
             font-size: 0.88rem;
-            font-weight: 500;
             font-family: 'Inter', sans-serif;
             cursor: pointer;
-            transition: all 0.2s;
+            border-radius: 10px;
+            transition: background 0.2s, color 0.2s;
+            text-align: left;
         }
-        .btn-logout-side:hover {
-            background: rgba(220,80,60,0.15);
-            color: #F08070;
-            border-color: rgba(220,80,60,0.3);
-        }
+        .btn-logout-side:hover { background: rgba(198,40,40,0.12); color: #ef9a9a; }
 
         /* ── MAIN CONTENT ── */
         .main {
@@ -498,12 +496,17 @@
     <!-- SIDEBAR -->
     <aside class="sidebar">
         <div class="sidebar-brand">
-            <div class="sidebar-avatar" style="background:#fff; padding:6px; display:flex; align-items:center; justify-content:center; overflow:hidden;"><img src="{{ asset('images/logo.png') }}" style="width:100%; height:100%; object-fit:contain;" alt="Logo"></div>
+            <div class="sidebar-avatar">
+                <img src="{{ asset('images/logo.png') }}" style="width:100%; height:100%; object-fit:contain;" alt="Logo">
+            </div>
             <h2>Admin Panel</h2>
             <p>{{ auth()->user()->name }}</p>
         </div>
 
         <nav class="sidebar-nav">
+            <a href="{{ route('admin.dashboard') }}" class="nav-item" id="nav-admin-dashboard">
+                <span>📊</span> Dashboard
+            </a>
             <a href="{{ route('menu.manage') }}" class="nav-item active">
                 <span>📋</span> Manage Menu
             </a>
@@ -567,7 +570,7 @@
             </div>
             <div class="stat-card">
                 <div class="stat-icon">💰</div>
-                <div class="stat-value">RM {{ number_format($avgPrice, 0) }}</div>
+                <div class="stat-value">RM {{ number_format($avgPrice, 2) }}</div>
                 <div class="stat-label">Avg. Price</div>
             </div>
         </div>

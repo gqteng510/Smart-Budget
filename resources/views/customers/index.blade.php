@@ -26,7 +26,7 @@
             flex-direction: column;
             position: fixed;
             top: 0; left: 0; bottom: 0;
-            z-index: 50;
+            z-index: 100;
         }
 
         .sidebar-brand {
@@ -49,14 +49,17 @@
         }
 
         .sidebar-brand h2 {
-            color: #E8D5C4;
-            font-size: 0.95rem;
+            font-family: 'Playfair Display', serif;
+            font-size: 1.2rem;
+            color: #E8A96A;
             font-weight: 700;
+            line-height: 1.2;
             letter-spacing: 0.02em;
         }
         .sidebar-brand p {
             color: rgba(232,213,196,0.45);
             font-size: 0.75rem;
+            margin-top: 2px;
         }
 
         .sidebar-nav {
@@ -73,11 +76,12 @@
             gap: 10px;
             padding: 10px 14px;
             border-radius: 10px;
-            color: rgba(232,213,196,0.6);
+            color: rgba(232,213,196,0.65);
             font-size: 0.88rem;
             font-weight: 500;
             text-decoration: none;
-            transition: background 0.2s, color 0.2s;
+            transition: all 0.2s;
+            margin-bottom: 4px;
         }
         .nav-item:hover { background: rgba(232,169,106,0.08); color: #E8D5C4; }
         .nav-item.active {
@@ -105,6 +109,7 @@
             cursor: pointer;
             border-radius: 10px;
             transition: background 0.2s, color 0.2s;
+            text-align: left;
         }
         .btn-logout-side:hover { background: rgba(198,40,40,0.12); color: #ef9a9a; }
 
@@ -293,6 +298,9 @@
         </div>
 
         <nav class="sidebar-nav">
+            <a href="{{ route('admin.dashboard') }}" class="nav-item" id="nav-admin-dashboard">
+                <span>📊</span> Dashboard
+            </a>
             <a href="{{ route('menu.manage') }}" class="nav-item">
                 <span>📋</span> Manage Menu
             </a>

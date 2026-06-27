@@ -15,9 +15,7 @@
             min-height: 100vh;
             display: flex;
             color: #E8D5C4;
-        }
-
-        /* ── SIDEBAR ── */
+        }        /* ── SIDEBAR ── */
         .sidebar {
             width: 240px;
             min-height: 100vh;
@@ -27,8 +25,9 @@
             flex-direction: column;
             position: fixed;
             top: 0; left: 0; bottom: 0;
-            z-index: 50;
+            z-index: 100;
         }
+
         .sidebar-brand {
             padding: 24px 20px 20px;
             border-bottom: 1px solid rgba(232,169,106,0.1);
@@ -38,6 +37,7 @@
             gap: 10px;
             text-align: center;
         }
+
         .sidebar-avatar {
             width: 64px; height: 64px;
             border-radius: 14px;
@@ -46,8 +46,20 @@
             display: flex; align-items: center; justify-content: center;
             overflow: hidden;
         }
-        .sidebar-brand h2 { color: #E8D5C4; font-size: 0.95rem; font-weight: 700; }
-        .sidebar-brand p  { color: rgba(232,213,196,0.45); font-size: 0.75rem; }
+
+        .sidebar-brand h2 {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.2rem;
+            color: #E8A96A;
+            font-weight: 700;
+            line-height: 1.2;
+            letter-spacing: 0.02em;
+        }
+        .sidebar-brand p {
+            color: rgba(232,213,196,0.45);
+            font-size: 0.75rem;
+            margin-top: 2px;
+        }
 
         .sidebar-nav {
             flex: 1;
@@ -56,20 +68,26 @@
             flex-direction: column;
             gap: 4px;
         }
+
         .nav-item {
             display: flex;
             align-items: center;
             gap: 10px;
             padding: 10px 14px;
             border-radius: 10px;
-            color: rgba(232,213,196,0.6);
+            color: rgba(232,213,196,0.65);
             font-size: 0.88rem;
             font-weight: 500;
             text-decoration: none;
-            transition: background 0.2s, color 0.2s;
+            transition: all 0.2s;
+            margin-bottom: 4px;
         }
         .nav-item:hover { background: rgba(232,169,106,0.08); color: #E8D5C4; }
-        .nav-item.active { background: rgba(232,169,106,0.15); color: #E8A96A; font-weight: 600; }
+        .nav-item.active {
+            background: rgba(232,169,106,0.15);
+            color: #E8A96A;
+            font-weight: 600;
+        }
         .nav-item span { font-size: 1.05rem; }
 
         .sidebar-footer {
@@ -78,13 +96,19 @@
         }
         .btn-logout-side {
             width: 100%;
-            display: flex; align-items: center; gap: 10px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
             padding: 10px 14px;
-            background: none; border: none;
+            background: none;
+            border: none;
             color: rgba(232,213,196,0.5);
-            font-size: 0.88rem; font-family: 'Inter', sans-serif;
-            cursor: pointer; border-radius: 10px;
+            font-size: 0.88rem;
+            font-family: 'Inter', sans-serif;
+            cursor: pointer;
+            border-radius: 10px;
             transition: background 0.2s, color 0.2s;
+            text-align: left;
         }
         .btn-logout-side:hover { background: rgba(198,40,40,0.12); color: #ef9a9a; }
 
@@ -296,6 +320,9 @@
         </div>
 
         <nav class="sidebar-nav">
+            <a href="{{ route('admin.dashboard') }}" class="nav-item" id="nav-admin-dashboard">
+                <span>📊</span> Dashboard
+            </a>
             <a href="{{ route('menu.manage') }}" class="nav-item">
                 <span>📋</span> Manage Menu
             </a>
@@ -361,7 +388,7 @@
             </div>
             <div class="stat-card">
                 <div class="stat-icon">💰</div>
-                <div class="stat-value">RM {{ number_format($totalSpent, 0) }}</div>
+                <div class="stat-value">RM {{ number_format($totalSpent, 2) }}</div>
                 <div class="stat-label">Total Spent</div>
             </div>
             <div class="stat-card">
